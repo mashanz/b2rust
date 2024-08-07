@@ -1,3 +1,4 @@
 fn main() {
-    println!("Halo Dunia!");
+    let n: u8 = 5;
+    println!("Halo Dunia! {}", n);
 }
