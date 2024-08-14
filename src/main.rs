@@ -1,3 +1,7 @@
+fn fitur_c() {
+    println!("Fitur C");
+}
+
 fn fitur_b() {
     print!("Fitur B");
 }
@@ -9,6 +13,7 @@ fn fitur_a() {
 fn main() {
     let n: u8 = 5;
     println!("Halo Dunia! {}", n);
+    fitur_c();
     fitur_b();
     fitur_a();
 }
