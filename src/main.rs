@@ -1,5 +1,5 @@
 fn fitur_c() {
-    println!("Fitur C");
+    println!("Fitur C sudah di fixing");
 }
 
 fn fitur_b() {
