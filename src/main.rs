@@ -20,4 +20,5 @@ fn main() {
     fitur_c();
     fitur_b();
     fitur_a();
+    fitur_x();
 }
