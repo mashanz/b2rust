@@ -8,6 +8,7 @@ pub fn run() -> Result<Server, std::io::Error> {
         App::new()
             .service(pages::home::hello)
             .service(pages::echo::echo)
+            .service(api::users::service())
             .route("/hey", web::get().to(pages::hey::manual_hello))
     })
     .bind(("127.0.0.1", 8080))?
