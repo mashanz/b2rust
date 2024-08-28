@@ -27,4 +27,4 @@ COPY --from=builder /etc/group /etc/group
 COPY --from=builder /app/target/release/b2rust ./
 
 # 6. run app mode production untuk deployment
-CMD ['./b2rust']
+CMD ["./b2rust"]

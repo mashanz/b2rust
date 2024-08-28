@@ -11,7 +11,7 @@ pub fn run() -> Result<Server, std::io::Error> {
             .service(api::users::service())
             .route("/hey", web::get().to(pages::hey::manual_hello))
     })
-    .bind(("127.0.0.1", 8080))?
+    .bind(("0.0.0.0", 8080))?
     .run();
     Ok(server)
 }
