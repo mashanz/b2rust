@@ -1,0 +1,22 @@
+version: "3.5"
+
+services:
+  aplikasi:
+    image: localhost/b2rust
+    environment:
+      DATABASE_URL: postgres://postgres:example@database/b2rust
+    ports:
+      - "8080:8080"
+  database:
+    image: postgres:15
+    environment:
+      POSTGRES_PASSWORD: example
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgresql_data:/var/lib/postgresql/data
+  proxy:
+    image: nginx:latest
+    ports:
+      - "80:80"
