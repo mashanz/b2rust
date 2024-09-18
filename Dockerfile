@@ -18,7 +18,7 @@ RUN cargo build --release --locked
 RUN strip -s target/release/b2rust
 
 # 4. define image untuk deployment
-FROM gcr.io/distroless/cc-debian12 AS runner
+FROM gcr.io/distroless/static-debian12 AS runner
 WORKDIR /app
 
 # 5. define config untuk deployment (non-root)
@@ -27,4 +27,4 @@ COPY --from=builder /etc/group /etc/group
 COPY --from=builder /app/target/release/b2rust ./
 
 # 6. run app mode production untuk deployment
-CMD ["./b2rust"]
+CMD ["b2rust"]
