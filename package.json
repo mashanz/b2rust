@@ -2,10 +2,10 @@
   "scripts": {
     "tw:watch": "tailwindcss -i ./static/app.css -o ./static/style.css --watch",
     "tw:build": "tailwindcss -i ./static/app.css -o ./static/style.css --minify"
-
   },
   "dependencies": {},
   "devDependencies": {
+    "daisyui": "4.12.10",
     "tailwindcss": "3.4.12"
   }
 }

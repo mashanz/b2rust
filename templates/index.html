@@ -9,6 +9,12 @@
   <body class="flex h-screen w-full">
     <main class="text-red-500 text-xl font-bold m-auto">
       Hello -> {{ val }}
+
+      <form class="flex flex-col gap-2 m-auto" method="POST" target="/">
+        <input class="input" type="email" name="email" id="email" placeholder="email" required>
+        <input class="input" type="password" name="password" id="password" placeholder="password" required>
+        <button class="btn btn-primary" type="submit">LOGIN</button>
+      </form>
     </main>
   </body>
 </html>

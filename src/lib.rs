@@ -1,11 +1,11 @@
-pub mod app_data;
 pub mod api;
+pub mod app_data;
 pub mod pages;
 
-use actix_web::{dev::Server, HttpServer, HttpRequest, App, web, get, Error, cookie::Key};
 use crate::app_data::AppData;
-use actix_session::{SessionMiddleware, storage::RedisActorSessionStore};
+use actix_session::{storage::RedisActorSessionStore, SessionMiddleware};
 use actix_web::middleware::Logger;
+use actix_web::{cookie::Key, dev::Server, get, web, App, Error, HttpRequest, HttpServer};
 use env_logger::Env;
 
 #[get("/assets/{filename:.*}")]
@@ -24,7 +24,6 @@ pub fn run() -> Result<Server, std::io::Error> {
 
     // create server
     let server = HttpServer::new(move || {
-
         // Load Templates
         let tera_data = match tera::Tera::new("templates/**/*.html") {
             Ok(t) => t,
@@ -40,7 +39,8 @@ pub fn run() -> Result<Server, std::io::Error> {
             .wrap(Logger::new("%a %{User-Agent}i"))
             .wrap(SessionMiddleware::new(
                 RedisActorSessionStore::new("127.0.0.1:6379"),
-                secret_key.clone()))
+                secret_key.clone(),
+            ))
             .app_data(actix_web::web::Data::new(AppData {
                 template: tera_data.clone(),
             }))
@@ -48,9 +48,10 @@ pub fn run() -> Result<Server, std::io::Error> {
             .service(pages::echo::echo)
             .service(api::users::service())
             .service(cdn_alaala)
+            .service(pages::home::login_handler)
             .route("/hey", web::get().to(pages::hey::manual_hello))
     })
-    .bind(("0.0.0.0", 8080))?
+    .bind(("127.0.0.1", 8080))?
     .run();
     Ok(server)
 }

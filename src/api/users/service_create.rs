@@ -1,6 +1,4 @@
-use std::fmt::format;
-
-use actix_web::{web, Responder, HttpResponse};
+use actix_web::{web, HttpResponse, Responder};
 use serde::Deserialize;
 
 #[derive(Deserialize, Debug, Clone)]
@@ -9,8 +7,6 @@ pub struct UserRequestBody {
     pub email: String,
 }
 
-pub async fn create(
-    json: web::Json<UserRequestBody>
-) -> impl Responder {
+pub async fn create(json: web::Json<UserRequestBody>) -> impl Responder {
     HttpResponse::Ok().body(format!("CREATE: {}", json.name))
 }
