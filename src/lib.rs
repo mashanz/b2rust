@@ -2,23 +2,27 @@ pub mod app_data;
 pub mod api;
 pub mod pages;
 
-use actix_web::{dev::Server, HttpServer, HttpRequest, App, web, get, Error};
+use actix_web::{dev::Server, HttpServer, HttpRequest, App, web, get, Error, cookie::Key};
 use crate::app_data::AppData;
+use actix_session::{SessionMiddleware, storage::RedisActorSessionStore};
+use actix_web::middleware::Logger;
+use env_logger::Env;
 
 #[get("/assets/{filename:.*}")]
 async fn cdn_alaala(req: HttpRequest) -> Result<actix_files::NamedFile, Error> {
     let path: std::path::PathBuf = req.match_info().query("filename").parse().unwrap();
     let file = actix_files::NamedFile::open(path)?;
-    Ok(file
-        .use_last_modified(true)
-        .set_content_disposition(actix_web::http::header::ContentDisposition {
-            disposition: actix_web::http::header::DispositionType::Attachment,
-            parameters: vec![],
-        })
-    )
+    Ok(file)
 }
 
 pub fn run() -> Result<Server, std::io::Error> {
+    // Logging
+    env_logger::init_from_env(Env::default().default_filter_or("info"));
+
+    // auto generate identifier untuk redis session state
+    let secret_key = Key::generate();
+
+    // create server
     let server = HttpServer::new(move || {
 
         // Load Templates
@@ -32,6 +36,11 @@ pub fn run() -> Result<Server, std::io::Error> {
 
         // Running Apps
         App::new()
+            .wrap(Logger::default())
+            .wrap(Logger::new("%a %{User-Agent}i"))
+            .wrap(SessionMiddleware::new(
+                RedisActorSessionStore::new("127.0.0.1:6379"),
+                secret_key.clone()))
             .app_data(actix_web::web::Data::new(AppData {
                 template: tera_data.clone(),
             }))
