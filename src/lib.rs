@@ -49,6 +49,9 @@ pub fn run() -> Result<Server, std::io::Error> {
             .service(api::users::service())
             .service(cdn_alaala)
             .service(pages::home::login_handler)
+            .service(pages::daftar_belanjaan::delete_daftar_belanjaan)
+            .service(pages::daftar_belanjaan::list_daftar_belanjaan)
+            .service(pages::daftar_belanjaan::add_daftar_belanjaan)
             .route("/hey", web::get().to(pages::hey::manual_hello))
     })
     .bind(("127.0.0.1", 8080))?

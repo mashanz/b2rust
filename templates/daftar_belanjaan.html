@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Belanjaan</title>
+    <link href="/assets/static/style.css" rel="stylesheet">
+    <script src="https://unpkg.com/htmx.org@2.0.2" integrity="sha384-Y7hw+L/jvKeWIRRkqWYfPcvVxHzVzn5REgzbawhxAuQGwX1XWe70vji+VSeHOThJ" crossorigin="anonymous"></script>
+</head>
+<body>
+    <form>
+        <input class="input border" type="text" name="name" id="name" placeholder="name">
+        <input class="input border" type="text" name="qty" id="qty" placeholder="Quantity">
+        <input class="input border" type="number" name="price" id="price" placeholder="Price">
+        <button class="btn btn-primary btn-sm" hx-post="/daftar_belanjaan" hx-target="body" type="submit">SUBMIT</button>
+    </form>
+
+    {% for belanjaan in daftar_belanjaan %}
+        <div class="flex">
+            {{ belanjaan.id }}, {{ belanjaan.name }}, {{ belanjaan.qty }}, {{ belanjaan.price }}, {{ belanjaan.price * belanjaan.qty }} <br/>
+            <form>
+                <input type="number" name="id" id="id" hidden value="{{ belanjaan.id }}">
+                <button type="submit" hx-post="/daftar_belanjaan/delete" hx-target="body" class="btn btn-error btn-sm">DELETE</button>
+            </form>
+        </div>
+        
+    {% endfor %}
+</body>
+</html>
